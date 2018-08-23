@@ -33,7 +33,16 @@ const isFieldHotkey = isKeyHotkey('mod+3')
  */
 
 function Field(props) {
-  return <span><b>Hello my dude</b></span>;
+  return (
+    <span>
+      <select>
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+    </span>
+  );
 }
 
 
