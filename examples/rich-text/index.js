@@ -24,6 +24,18 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
+const isFieldHotkey = isKeyHotkey('mod+3')
+
+/**
+ * A styled Field inline component.
+ *
+ * @type {Component}
+ */
+
+function Field(props) {
+  return <span><b>Hello my dude</b></span>;
+}
+
 
 /**
  * The rich text example.
@@ -171,6 +183,14 @@ class RichTextExample extends React.Component {
         return <li {...attributes}>{children}</li>
       case 'numbered-list':
         return <ol {...attributes}>{children}</ol>
+      case 'field': {
+        return (
+          <Field
+            {...props.attributes}
+          >
+          </Field>
+        )
+      }
     }
   }
 
@@ -226,12 +246,35 @@ class RichTextExample extends React.Component {
     } else if (isCodeHotkey(event)) {
       mark = 'code'
     } else {
+      if (isFieldHotkey(event)) {
+        this.onInsertField(event, change)
+      }
       return
     }
 
     event.preventDefault()
     change.toggleMark(mark)
     return true
+  }
+
+  /**
+   * Insert a new field when you hit the hotkey
+   * (or possibly when you insert the button)
+   *
+   * @param {Event} e
+   */
+
+  onInsertField = (e, change) => {
+    e.preventDefault()
+
+    change
+      .insertInline({
+        type: 'field'
+      })
+      .moveToStartOfNextText()
+      .focus()
+
+    this.onChange(change)
   }
 
   /**

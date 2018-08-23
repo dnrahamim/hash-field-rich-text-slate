@@ -8,28 +8,7 @@ import {
   Switch,
 } from 'react-router-dom'
 
-import CheckLists from './check-lists'
-import CodeHighlighting from './code-highlighting'
-import Embeds from './embeds'
-import Emojis from './emojis'
-import ForcedLayout from './forced-layout'
-import History from './history'
-import HoveringMenu from './hovering-menu'
-import HugeDocument from './huge-document'
-import Images from './images'
-import Links from './links'
-import MarkdownPreview from './markdown-preview'
-import MarkdownShortcuts from './markdown-shortcuts'
-import PasteHtml from './paste-html'
-import PlainText from './plain-text'
-import Plugins from './plugins'
-import RTL from './rtl'
-import ReadOnly from './read-only'
 import RichText from './rich-text'
-import SearchHighlighting from './search-highlighting'
-import InputTester from './input-tester'
-import SyncingOperations from './syncing-operations'
-import Tables from './tables'
 
 /**
  * Examples.
@@ -38,28 +17,7 @@ import Tables from './tables'
  */
 
 const EXAMPLES = [
-  ['Rich Text', RichText, '/rich-text'],
-  ['Plain Text', PlainText, '/plain-text'],
-  ['Hovering Menu', HoveringMenu, '/hovering-menu'],
-  ['Links', Links, '/links'],
-  ['Images', Images, '/images'],
-  ['Embeds', Embeds, '/embeds'],
-  ['Emojis', Emojis, '/emojis'],
-  ['Markdown Preview', MarkdownPreview, '/markdown-preview'],
-  ['Markdown Shortcuts', MarkdownShortcuts, '/markdown-shortcuts'],
-  ['Check Lists', CheckLists, '/check-lists'],
-  ['Code Highlighting', CodeHighlighting, '/code-highlighting'],
-  ['Tables', Tables, '/tables'],
-  ['Paste HTML', PasteHtml, '/paste-html'],
-  ['Search Highlighting', SearchHighlighting, '/search-highlighting'],
-  ['Syncing Operations', SyncingOperations, '/syncing-operations'],
-  ['Read-only', ReadOnly, '/read-only'],
-  ['RTL', RTL, '/rtl'],
-  ['Plugins', Plugins, '/plugins'],
-  ['Forced Layout', ForcedLayout, '/forced-layout'],
-  ['Huge Document', HugeDocument, '/huge-document'],
-  ['History', History, '/history'],
-  ['Input Tester', InputTester, '/input-tester'],
+  ['Rich Text', RichText, '/rich-text']
 ]
 
 /**

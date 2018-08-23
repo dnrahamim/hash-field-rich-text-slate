@@ -111,5 +111,10 @@
     "test": "cross-env BABEL_ENV=test FORBID_WARNINGS=true mocha --require babel-core/register ./packages/*/test/index.js",
     "test:coverage": "cross-env NODE_ENV=test nyc yarn test",
     "watch": "rollup --config ./support/rollup/config.js --watch"
+  },
+  "dependencies": {
+    "slate": "^0.40.0",
+    "slate-html-serializer": "^0.7.0",
+    "slate-react": "^0.18.0"
   }
 }
