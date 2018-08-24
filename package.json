@@ -53,8 +53,8 @@
     "nyc": "^12.0.2",
     "prettier": "^1.10.2",
     "prismjs": "^1.5.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-emotion": "^9.2.4",
     "react-hot-loader": "^3.1.3",
     "react-portal": "^4.1.5",
@@ -113,6 +113,8 @@
     "watch": "rollup --config ./support/rollup/config.js --watch"
   },
   "dependencies": {
+    "react-select": "^2.0.0",
+    "reactstrap": "^6.4.0",
     "slate": "^0.40.0",
     "slate-html-serializer": "^0.7.0",
     "slate-react": "^0.18.0"
