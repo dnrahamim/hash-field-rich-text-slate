@@ -2,6 +2,8 @@ import { Editor } from 'slate-react'
 import { Value } from 'slate'
 
 import React from 'react'
+import styled from 'react-emotion'
+
 import initialValue from './value.json'
 import { isKeyHotkey } from 'is-hotkey'
 import { Button, Icon, Toolbar } from '../components'
@@ -12,8 +14,46 @@ import { Button, Icon, Toolbar } from '../components'
  * @type {String}
  */
 
-const DEFAULT_NODE = 'paragraph'
+ const DEFAULT_NODE = 'paragraph'
 
+ const Emoji = styled('span')`
+ outline: ${props => (props.selected ? '2px solid blue' : 'none')};
+`
+
+/**
+ * Emojis.
+ *
+ * @type {Array}
+ */
+
+const EMOJIS = [
+  '😃',
+  '😬',
+  '😂',
+  '😅',
+  '😆',
+  '😍',
+  '😱',
+  '👋',
+  '👏',
+  '👍',
+  '🙌',
+  '👌',
+  '🙏',
+  '👻',
+  '🍔',
+  '🍑',
+  '🔑',
+]
+
+/**
+ * No ops.
+ *
+ * @type {Function}
+ */
+
+const noop = e => e.preventDefault()
+ 
 /**
  * Define hotkey matchers.
  *
@@ -32,17 +72,19 @@ const isFieldHotkey = isKeyHotkey('mod+3')
  * @type {Component}
  */
 
-function Field(props) {
-  return (
-    <span>
-      <select>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option>
-      </select>
-    </span>
-  );
+class Field extends React.Component {
+  render() {
+    return (
+      <span {...this.props.attributes}>
+        <select>
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+      </span>
+    );
+  }
 }
 
 
@@ -61,6 +103,23 @@ class RichTextExample extends React.Component {
 
   state = {
     value: Value.fromJSON(initialValue),
+  }
+
+  /**
+   * The editor's schema.
+   *
+   * @type {Object}
+   */
+
+  schema = {
+    inlines: {
+      emoji: {
+        isVoid: true,
+      },
+      field: {
+        isVoid: true,
+      },
+    },
   }
 
   /**
@@ -106,11 +165,17 @@ class RichTextExample extends React.Component {
           {this.renderBlockButton('block-quote', 'format_quote')}
           {this.renderBlockButton('numbered-list', 'format_list_numbered')}
           {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
+          {EMOJIS.map((emoji, i) => (
+            <Button key={i} onMouseDown={e => this.onClickEmoji(e, emoji)}>
+              <Icon>{emoji}</Icon>
+            </Button>
+          ))}
         </Toolbar>
         <Editor
           spellCheck
           autoFocus
           placeholder="Enter some rich text..."
+          schema={this.schema}
           value={this.state.value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
@@ -177,7 +242,7 @@ class RichTextExample extends React.Component {
    */
 
   renderNode = props => {
-    const { attributes, children, node } = props
+    const { attributes, children, node, isFocused } = props
 
     switch (node.type) {
       case 'block-quote':
@@ -194,10 +259,25 @@ class RichTextExample extends React.Component {
         return <ol {...attributes}>{children}</ol>
       case 'field': {
         return (
-          <Field
+          <select {...attributes}>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+          </select>
+        )
+      }
+      case 'emoji': {
+        const code = node.data.get('code')
+        return (
+          <Emoji
             {...props.attributes}
+            selected={isFocused}
+            contentEditable={false}
+            onDrop={noop}
           >
-          </Field>
+            {code}
+          </Emoji>
         )
       }
     }
@@ -279,6 +359,28 @@ class RichTextExample extends React.Component {
     change
       .insertInline({
         type: 'field'
+      })
+      .moveToStartOfNextText()
+      .focus()
+
+    this.onChange(change)
+  }
+
+  /**
+   * When clicking a emoji, insert it
+   *
+   * @param {Event} e
+   */
+
+  onClickEmoji = (e, code) => {
+    e.preventDefault()
+    const { value } = this.state
+    const change = value.change()
+
+    change
+      .insertInline({
+        type: 'emoji',
+        data: { code },
       })
       .moveToStartOfNextText()
       .focus()
