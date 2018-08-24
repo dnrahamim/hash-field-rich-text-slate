@@ -77,10 +77,11 @@ class Field extends React.Component {
     return (
       <span {...this.props.attributes}>
         <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
+          <option value="field0"> -- select a field -- </option>
+          <option value="field1">field1</option>
+          <option value="field2">field2</option>
+          <option value="field3">field3</option>
+          <option value="field4">field4</option>
         </select>
       </span>
     );
