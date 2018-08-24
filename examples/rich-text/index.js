@@ -259,12 +259,7 @@ class RichTextExample extends React.Component {
         return <ol {...attributes}>{children}</ol>
       case 'field': {
         return (
-          <select {...attributes}>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-          </select>
+          <Field {...props}/>
         )
       }
       case 'emoji': {
