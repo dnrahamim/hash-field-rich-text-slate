@@ -165,11 +165,9 @@ class RichTextExample extends React.Component {
           {this.renderBlockButton('block-quote', 'format_quote')}
           {this.renderBlockButton('numbered-list', 'format_list_numbered')}
           {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
-          {EMOJIS.map((emoji, i) => (
-            <Button key={i} onMouseDown={e => this.onClickEmoji(e, emoji)}>
-              <Icon>{emoji}</Icon>
-            </Button>
-          ))}
+          <Button onMouseDown={e => this.onClickEmoji(e, EMOJIS[0])}>
+            <Icon>{EMOJIS[0]}</Icon>
+          </Button>
         </Toolbar>
         <Editor
           spellCheck
