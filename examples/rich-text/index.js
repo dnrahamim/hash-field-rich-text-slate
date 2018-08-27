@@ -2,7 +2,6 @@ import { Editor } from 'slate-react'
 import { Value } from 'slate'
 
 import React from 'react'
-import styled from 'react-emotion'
 import Select from 'react-select'
 
 import initialValue from './value.json'
@@ -16,36 +15,6 @@ import { Button, Icon, Toolbar } from '../components'
  */
 
  const DEFAULT_NODE = 'paragraph'
-
- const Emoji = styled('span')`
- outline: ${props => (props.selected ? '2px solid blue' : 'none')};
-`
-
-/**
- * Emojis.
- *
- * @type {Array}
- */
-
-const EMOJIS = [
-  '😃',
-  '😬',
-  '😂',
-  '😅',
-  '😆',
-  '😍',
-  '😱',
-  '👋',
-  '👏',
-  '👍',
-  '🙌',
-  '👌',
-  '🙏',
-  '👻',
-  '🍔',
-  '🍑',
-  '🔑',
-]
 
 /**
  * No ops.
@@ -150,9 +119,6 @@ class RichTextExample extends React.Component {
 
   schema = {
     inlines: {
-      emoji: {
-        isVoid: true,
-      },
       field: {
         isVoid: true,
       },
@@ -202,9 +168,6 @@ class RichTextExample extends React.Component {
           {this.renderBlockButton('block-quote', 'format_quote')}
           {this.renderBlockButton('numbered-list', 'format_list_numbered')}
           {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
-          <Button onMouseDown={e => this.onClickEmoji(e, EMOJIS[0])}>
-            <Icon>{EMOJIS[0]}</Icon>
-          </Button>
         </Toolbar>
         <Editor
           spellCheck
@@ -297,19 +260,6 @@ class RichTextExample extends React.Component {
           <Field {...props}/>
         )
       }
-      case 'emoji': {
-        const code = node.data.get('code')
-        return (
-          <Emoji
-            {...props.attributes}
-            selected={isFocused}
-            contentEditable={false}
-            onDrop={noop}
-          >
-            {code}
-          </Emoji>
-        )
-      }
     }
   }
 
@@ -389,28 +339,6 @@ class RichTextExample extends React.Component {
     change
       .insertInline({
         type: 'field'
-      })
-      .moveToStartOfNextText()
-      .focus()
-
-    this.onChange(change)
-  }
-
-  /**
-   * When clicking a emoji, insert it
-   *
-   * @param {Event} e
-   */
-
-  onClickEmoji = (e, code) => {
-    e.preventDefault()
-    const { value } = this.state
-    const change = value.change()
-
-    change
-      .insertInline({
-        type: 'emoji',
-        data: { code },
       })
       .moveToStartOfNextText()
       .focus()
