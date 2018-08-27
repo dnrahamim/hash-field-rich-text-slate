@@ -26,28 +26,14 @@ class Field extends React.Component {
      *
      * @param {Event} e
      */
-
-    static onInsertField = (e, change) => {
-        e.preventDefault()
-
-        change
-        .insertInline({
-            type: 'field'
-        })
-        .moveToStartOfNextText()
-        .focus()
-
-        this.onChange(change)
-    }
   
     handleChange(selectedOption) {
-      if(selectedOption !== 'empty') {
-        this.setState({'selection': selectedOption});
+      if(selectedOption.value !== 'empty') {
+        this.setState({'selection': selectedOption.value});
       }
     }
   
     render() {
-      let myElement
       if(this.state.selection === 'empty') {
         const options = [
           { value: 'empty', label: '-- select a field --' },
@@ -56,20 +42,21 @@ class Field extends React.Component {
           { value: 'field3', label: 'field3' },
           { value: 'field4', label: 'field4' },
         ]
-        this.mySelect = <Select style={{'width': '200px'}} defaultMenuIsOpen={true} options={options} />
-        myElement = 
+        return (
           <span {...this.props.attributes} style={{ display: 'inline-block', width: '200px', maxWidth: '200px'}}>
-              {this.mySelect}
+            <Select 
+              defaultMenuIsOpen={true}
+              options={options}
+              onChange={this.handleChange}
+            />
           </span>
+        );
       } else {
         const divStyle = {
           color: 'red',
         };
-        myElement = <b style={divStyle}>#{this.state.selection}</b>
+        return <b style={divStyle}>#{this.state.selection}</b>
       }
-      return (
-        myElement
-      );
     }
   }
 
