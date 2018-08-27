@@ -2,7 +2,7 @@ import { Editor } from 'slate-react'
 import { Value } from 'slate'
 
 import React from 'react'
-import Select from 'react-select'
+import Field from './components/field'
 
 import initialValue from './value.json'
 import { isKeyHotkey } from 'is-hotkey'
@@ -15,14 +15,6 @@ import { Button, Icon, Toolbar } from '../components'
  */
 
  const DEFAULT_NODE = 'paragraph'
-
-/**
- * No ops.
- *
- * @type {Function}
- */
-
-const noop = e => e.preventDefault()
  
 /**
  * Define hotkey matchers.
@@ -35,63 +27,6 @@ const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
 const isFieldHotkey = isKeyHotkey('mod+3')
-
-/**
- * A styled Field inline component.
- *
- * @type {Component}
- */
-
-class Field extends React.Component {
-
-  state = {
-    selection: 'empty'
-  }
-
-  constructor() {
-    super()
-    // create a ref to store the select DOM element
-    this.selectRef = React.createRef();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(selectedOption) {
-    if(selectedOption !== 'empty') {
-      this.setState({'selection': selectedOption});
-    }
-  }
-
-  componentDidMount() {
-    //debugger;
-    //this.mySelect.openMenu();
-  }
-
-  render() {
-    let myElement
-    if(this.state.selection === 'empty') {
-      const options = [
-        { value: 'empty', label: '-- select a field --' },
-        { value: 'field1', label: 'field1' },
-        { value: 'field2', label: 'field2' },
-        { value: 'field3', label: 'field3' },
-        { value: 'field4', label: 'field4' },
-      ]
-      this.mySelect = <Select style={{'width': '200px'}} defaultMenuIsOpen={true} options={options} />
-      myElement = 
-        <span {...this.props.attributes} style={{ display: 'inline-block', width: '200px', maxWidth: '200px'}}>
-            {this.mySelect}
-        </span>
-    } else {
-      const divStyle = {
-        color: 'red',
-      };
-      myElement = <b style={divStyle}>#{this.state.selection}</b>
-    }
-    return (
-      myElement
-    );
-  }
-}
 
 
 /**
