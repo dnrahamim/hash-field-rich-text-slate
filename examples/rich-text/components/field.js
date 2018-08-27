@@ -10,14 +10,14 @@ import Select from 'react-select'
 class Field extends React.Component {
 
     state = {
-      selection: 'empty'
+      value: 'empty',
+      isMenu: 'true'
     }
   
-    constructor() {
-      super()
-      // create a ref to store the select DOM element
-      this.selectRef = React.createRef();
-      this.handleChange = this.handleChange.bind(this);
+    constructor(props) {
+      super(props)
+      this.handleChange = this.handleChange.bind(this)
+      this.handleClosedClick = this.handleClosedClick.bind(this)
     }
 
     /**
@@ -26,15 +26,27 @@ class Field extends React.Component {
      *
      * @param {Event} e
      */
-  
     handleChange(selectedOption) {
-      if(selectedOption.value !== 'empty') {
-        this.setState({'selection': selectedOption.value});
-      }
+        const change = this.props.editor.value.change();
+        if(selectedOption.value !== 'empty') {
+            this.setState({
+                'isMenu': false,
+                'value': selectedOption.value
+            });
+            change
+                .moveToStartOfNextBlock()
+                .focus()
+        }
+    } 
+
+    handleClosedClick(event) {
+        this.setState({
+            'isMenu': true
+        });
     }
   
     render() {
-      if(this.state.selection === 'empty') {
+      if(this.state.isMenu) {
         const options = [
           { value: 'empty', label: '-- select a field --' },
           { value: 'field1', label: 'field1' },
@@ -48,6 +60,7 @@ class Field extends React.Component {
               defaultMenuIsOpen={true}
               options={options}
               onChange={this.handleChange}
+              isSearchable={true}
             />
           </span>
         );
@@ -55,7 +68,12 @@ class Field extends React.Component {
         const divStyle = {
           color: 'red',
         };
-        return <b style={divStyle}>#{this.state.selection}</b>
+        return (
+            <b 
+                style={divStyle}
+                onClick={this.handleClosedClick}
+            >#{this.state.value}</b>
+        )
       }
     }
   }
